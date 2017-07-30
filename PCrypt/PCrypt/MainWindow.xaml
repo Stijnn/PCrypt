@@ -1,0 +1,46 @@
+﻿<Controls:MetroWindow x:Class="PCrypt.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:PCrypt"
+        mc:Ignorable="d"
+        Title="PCrypt - File Encryption Tool" 
+        Height="720" Width="1280"
+        MinHeight="720" MinWidth="1280"
+        
+        WindowTitleBrush="{DynamicResource AppMainColor}"
+        NonActiveWindowTitleBrush="{DynamicResource AppMainColor}"
+        BorderThickness="0"
+                      
+        Background="{DynamicResource AppMainColor}"
+        ResizeMode="CanResize"
+                      
+        SaveWindowPosition="True"
+        WindowStartupLocation="CenterScreen"
+                      
+        WindowCloseButtonStyle="{DynamicResource CloseWindowButtonStyle}"
+        WindowMinButtonStyle="{DynamicResource ControlBoxWindowButtonStyle}"
+        WindowMaxButtonStyle="{DynamicResource ControlBoxWindowButtonStyle}"
+                      
+        Loaded="OnLoaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="APP_GRID" Grid.Row="0">
+            
+        </Grid>
+
+        <Grid x:Name="PROGRESS_GRID" Grid.Row="1">
+            <local:ProgressView x:Name="PROGRESS_VIEW" Background="{DynamicResource AppSecondColor}" 
+                                Height="70">
+                
+            </local:ProgressView>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="PCrypt.ProgressView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:PCrypt"
+             mc:Ignorable="d" 
+             d:DesignHeight="70" d:DesignWidth="1280">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <!--First Column-->
+        <Grid Grid.Column="0">
+            <Label HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+                <Label.Content>
+                    <WrapPanel FlowDirection="LeftToRight" x:Name="REPORTER_GRID">
+                        <TextBlock x:Name="lblReporter" 
+                                   Text="" 
+                                   FontSize="12"/>
+                        
+                        <TextBlock x:Name="lblAction" 
+                                   Text="" 
+                                   FontSize="12"/>
+                    </WrapPanel>
+                </Label.Content>
+            </Label>
+        </Grid>
+        
+        <!--Second Column-->
+        <Controls:MetroProgressBar Grid.Column="1" 
+                                   Foreground="White"
+                                   x:Name="progressBar">
+            
+        </Controls:MetroProgressBar>
+        
+        <!--Third Column-->
+        <Grid Grid.Column="2">
+            
+        </Grid>
+    </Grid>
+</UserControl>
