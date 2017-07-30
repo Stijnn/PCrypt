@@ -20,6 +20,7 @@ namespace PCrypt
     using System.Threading;
     using Source.Structs;
     using Source.Reporter;
+    using MahApps.Metro.Controls;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -43,50 +44,38 @@ namespace PCrypt
 
         }
 
-        private void OnFileSelection(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog wnd = new OpenFileDialog();
-
-            wnd.CheckFileExists = true;
-            wnd.Multiselect = true;
-
-            if (wnd.ShowDialog() == true)
-            {
-                APP_GRID.IsEnabled = false;
-
-                string[] files = wnd.FileNames;
-                for (int i = 0; i < files.Length; i++)
-                {
-                    if (!string.IsNullOrWhiteSpace(""))
-                    {
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessFile), new PCryptFileInfo(files[i], ""));
-                    }
-                }
-
-                APP_GRID.IsEnabled = true;
-            }
-        }
-
-        private void ProcessFile(object info)
-        {
-            if (info.GetType() == typeof(PCryptFileInfo))
-            {
-                PCryptFileInfo pinfo = info as PCryptFileInfo;
-                PFileCipher cipher = new PFileCipher();
-
-                if (System.IO.Path.GetExtension(pinfo.FPath) == ".pcrypted")
-                    cipher.DecryptFile(pinfo.FPath, pinfo.PassKey);
-                else
-                    cipher.EncryptFile(pinfo.FPath, pinfo.PassKey);
-            }
-        }
-
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            //Setup previous settings
+            if (Properties.Settings.Default.IsMorePage)
+            {
+                this.MENU_CONTROL.SelectedIndex = -1;
+                this.MENU_CONTROL.SelectedOptionsIndex = Properties.Settings.Default.SelectedIndex;
+            }
+            else
+                this.MENU_CONTROL.SelectedIndex = Properties.Settings.Default.SelectedIndex;
+
+            //Setup ReporterView
             SReporter reporter = SReporter.Create(PROGRESS_VIEW);
             SReporter.SetIsIntermediate(false);
             SReporter.SetReporter("CURRENT TASK: ");
             SReporter.SetStatus("WAITING");
+        }
+
+        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings.Default.SelectedIndex = this.MENU_CONTROL.SelectedIndex == -1 ? this.MENU_CONTROL.SelectedOptionsIndex : this.MENU_CONTROL.SelectedIndex;
+            Properties.Settings.Default.IsMorePage = this.MENU_CONTROL.SelectedIndex == -1 ? true : false;
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void OnMenuItemClicked(object sender, MahApps.Metro.Controls.ItemClickEventArgs e)
+        {
+            // set the content
+            this.MENU_CONTROL.Content = e.ClickedItem;
+            // close the pane
+            this.MENU_CONTROL.IsPaneOpen = false;
         }
     }
 }

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:PCrypt"
-        mc:Ignorable="d"
+                      xmlns:views="clr-namespace:PCrypt.Views"
+                      mc:Ignorable="d"
         Title="PCrypt - File Encryption Tool" 
         Height="720" Width="1280"
         MinHeight="720" MinWidth="1280"
@@ -24,7 +25,8 @@
         WindowMinButtonStyle="{DynamicResource ControlBoxWindowButtonStyle}"
         WindowMaxButtonStyle="{DynamicResource ControlBoxWindowButtonStyle}"
                       
-        Loaded="OnLoaded">
+        Loaded="OnLoaded"
+        Closing="OnClosing">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -33,7 +35,72 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="APP_GRID" Grid.Row="0">
-            
+            <!-- Credits to sourcemaker: http://jkarger.de/2017/02/06/mahapps-hamburgermenu/ -->
+            <Controls:HamburgerMenu x:Name="MENU_CONTROL"
+                                    PaneBackground="{DynamicResource AppPaddingColor}"
+                                    IsPaneOpen="False"
+                                    Foreground="White"
+                                    DisplayMode="CompactOverlay"
+                                    
+                                    ItemTemplate="{StaticResource MenuItemTemplate}"
+                                    OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                                    
+                                    ItemClick="OnMenuItemClicked"
+                                    OptionsItemClick="OnMenuItemClicked">
+                
+                <!--Template-->
+                <Controls:HamburgerMenu.ContentTemplate>
+                    <DataTemplate DataType="{x:Type Controls:HamburgerMenuItem}">
+                        <Grid x:Name="TheContentGrid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0"
+                                    Background="#FF444444">
+                                <TextBlock x:Name="Header"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="24"
+                                            Foreground="White"
+                                            Text="{Binding Label}" />
+                            </Border>
+                            <ContentControl x:Name="TheContent"
+                                            Grid.Row="1"
+                                            Focusable="False"
+                                            Foreground="{DynamicResource BlackBrush}"
+                                            Content="{Binding Tag}" />
+                        </Grid>
+                    </DataTemplate>
+                </Controls:HamburgerMenu.ContentTemplate>
+                
+                <!--Items-->
+                <Controls:HamburgerMenu.ItemsSource>
+                    <Controls:HamburgerMenuItemCollection>
+                        <Controls:HamburgerMenuGlyphItem Glyph="" Label="Home">
+                            <Controls:HamburgerMenuGlyphItem.Tag>
+                                <views:HomeView/>
+                            </Controls:HamburgerMenuGlyphItem.Tag>
+                        </Controls:HamburgerMenuGlyphItem>
+
+                        <Controls:HamburgerMenuGlyphItem Glyph="" Label="File Encryption">
+                            <Controls:HamburgerMenuGlyphItem.Tag>
+                                <views:FileView/>
+                            </Controls:HamburgerMenuGlyphItem.Tag>
+                        </Controls:HamburgerMenuGlyphItem>
+                    </Controls:HamburgerMenuItemCollection>
+                </Controls:HamburgerMenu.ItemsSource>
+
+                <Controls:HamburgerMenu.OptionsItemsSource>
+                    <Controls:HamburgerMenuItemCollection>
+                        <Controls:HamburgerMenuGlyphItem Glyph="" Label="More">
+                            <Controls:HamburgerMenuGlyphItem.Tag>
+                                <views:MoreView/>
+                            </Controls:HamburgerMenuGlyphItem.Tag>
+                        </Controls:HamburgerMenuGlyphItem>
+                    </Controls:HamburgerMenuItemCollection>
+                </Controls:HamburgerMenu.OptionsItemsSource>
+            </Controls:HamburgerMenu>
         </Grid>
 
         <Grid x:Name="PROGRESS_GRID" Grid.Row="1">
