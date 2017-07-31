@@ -1,26 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace PCrypt
 {
-    using Microsoft.Win32;
-    using Source.Cryptography;
-    using System.Threading;
-    using Source.Structs;
-    using Source.Reporter;
-    using MahApps.Metro.Controls;
+    using PCrypt.Source.Handlers;
+    using PCrypt.Source.Reporter;
+    using MahApps.Metro.Controls.Dialogs;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -40,8 +24,6 @@ namespace PCrypt
             //}
 
             InitializeComponent();
-
-
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -54,6 +36,12 @@ namespace PCrypt
             }
             else
                 this.MENU_CONTROL.SelectedIndex = Properties.Settings.Default.SelectedIndex;
+
+            //Setup MenuHandler
+            MenuHandler.Initialize(ref MENU_CONTROL);
+
+            //Setup OverlayHandler
+            OverlayHandler.Initialize(ref OVERLAY_GRID);
 
             //Setup ReporterView
             SReporter reporter = SReporter.Create(PROGRESS_VIEW);
@@ -72,10 +60,7 @@ namespace PCrypt
 
         private void OnMenuItemClicked(object sender, MahApps.Metro.Controls.ItemClickEventArgs e)
         {
-            // set the content
-            this.MENU_CONTROL.Content = e.ClickedItem;
-            // close the pane
-            this.MENU_CONTROL.IsPaneOpen = false;
+            MenuHandler.ChangeContent(e.ClickedItem);
         }
     }
 }

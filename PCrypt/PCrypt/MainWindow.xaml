@@ -34,7 +34,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="APP_GRID" Grid.Row="0">
+        <Grid x:Name="OVERLAY_GRID" Grid.Row="0" Panel.ZIndex="-1" Background="{DynamicResource AppMainColor}" Visibility="Hidden" />
+
+        <Grid x:Name="APP_GRID" Grid.Row="0" Panel.ZIndex="0">
             <!-- Credits to sourcemaker: http://jkarger.de/2017/02/06/mahapps-hamburgermenu/ -->
             <Controls:HamburgerMenu x:Name="MENU_CONTROL"
                                     PaneBackground="{DynamicResource AppPaddingColor}"
@@ -47,7 +49,7 @@
                                     
                                     ItemClick="OnMenuItemClicked"
                                     OptionsItemClick="OnMenuItemClicked">
-                
+
                 <!--Template-->
                 <Controls:HamburgerMenu.ContentTemplate>
                     <DataTemplate DataType="{x:Type Controls:HamburgerMenuItem}">
@@ -73,7 +75,7 @@
                         </Grid>
                     </DataTemplate>
                 </Controls:HamburgerMenu.ContentTemplate>
-                
+
                 <!--Items-->
                 <Controls:HamburgerMenu.ItemsSource>
                     <Controls:HamburgerMenuItemCollection>

@@ -48,21 +48,21 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0">
+            <Button Grid.Column="0" Click="OnSettingsClicked">
                 <StackPanel>
                     <TextBlock Text="" Style="{DynamicResource TextBlockGlyphMoreStyle}"/>
                     <TextBlock Text="Settings" Style="{DynamicResource TextBlockMoreStyle}"/>
                 </StackPanel>
             </Button>
 
-            <Button Grid.Column="2">
+            <Button Grid.Column="2" Click="OnAccountClicked">
                 <StackPanel>
                     <TextBlock Text="" Style="{DynamicResource TextBlockGlyphMoreStyle}"/>
                     <TextBlock Text="Account" Style="{DynamicResource TextBlockMoreStyle}"/>
                 </StackPanel>
             </Button>
 
-            <Button Grid.Column="5">
+            <Button Grid.Column="5" Click="OnAboutClicked">
                 <StackPanel>
                     <TextBlock Text="" Style="{DynamicResource TextBlockGlyphMoreStyle}"/>
                     <TextBlock Text="About" Style="{DynamicResource TextBlockMoreStyle}"/>

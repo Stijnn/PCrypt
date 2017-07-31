@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PCrypt.Views
 {
+    using MahApps.Metro.Controls;
+    using PCrypt.Source.Handlers;
+    using System.Threading;
+
     /// <summary>
     /// Interaction logic for MoreView.xaml
     /// </summary>
@@ -23,6 +15,21 @@ namespace PCrypt.Views
         public MoreView()
         {
             InitializeComponent();
+        }
+
+        private void OnSettingsClicked(object sender, RoutedEventArgs e)
+        {
+            OverlayHandler.OpenOverlay(new SettingsView());
+        }
+
+        private void OnAccountClicked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void OnAboutClicked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
