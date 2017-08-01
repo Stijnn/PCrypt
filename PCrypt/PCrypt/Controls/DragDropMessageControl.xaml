@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="PCrypt.Controls.DragDropMessageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PCrypt.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="120">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="68"
+                   FontFamily="Segoe MDL2 Assets"
+                   Text=""/>
+
+        <TextBlock Grid.Row="1"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="12"
+                   Text="Drop file(s) here!"/>
+    </Grid>
+</UserControl>

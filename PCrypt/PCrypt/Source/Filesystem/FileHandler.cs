@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace PCrypt.Source.Filesystem
@@ -75,11 +76,12 @@ namespace PCrypt.Source.Filesystem
             return Convert.FromBase64String(basestr);
         }
 
-        public static void CreatePCryptFile(string fpath, byte[] encryptedbuffer)
+        public static void OpenFolderWin32(string fpath)
         {
-            string path = Path.GetFileNameWithoutExtension(fpath) + ".pcrypted";
-            File.WriteAllText(path, Convert.ToBase64String(encryptedbuffer));
-            WriteToFile(path, true, "\r\n" + Path.GetExtension(fpath));
+            if (Directory.Exists(Path.GetDirectoryName(fpath)))
+            {
+                Process.Start(Path.GetDirectoryName(fpath));
+            }
         }
     }
 }

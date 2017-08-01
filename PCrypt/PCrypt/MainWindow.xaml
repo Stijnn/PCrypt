@@ -112,7 +112,7 @@
                             </Controls:HamburgerMenuGlyphItem.Tag>
                         </Controls:HamburgerMenuGlyphItem>
 
-                        <Controls:HamburgerMenuGlyphItem Glyph="" Label="File Encryption">
+                        <Controls:HamburgerMenuGlyphItem Glyph="" Label="File Management">
                             <Controls:HamburgerMenuGlyphItem.Tag>
                                 <views:FileView/>
                             </Controls:HamburgerMenuGlyphItem.Tag>

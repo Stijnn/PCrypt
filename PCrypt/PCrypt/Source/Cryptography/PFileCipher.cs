@@ -4,6 +4,8 @@ using System.Text;
 namespace PCrypt.Source.Cryptography
 {
     using PCrypt.Source.Filesystem;
+    using PCrypt.Source.Reporter;
+    using System;
     using System.IO;
     using System.Windows;
 
@@ -20,21 +22,45 @@ namespace PCrypt.Source.Cryptography
         {
             try
             {
-                byte[] buffer = FileHandler.ReadBytes(fpath);
-                string basestr = FileHandler.BufferToBase64(buffer);
-                byte[] fcontent = Encoding.ASCII.GetBytes(basestr);
+                if (!File.Exists(fpath))
+                    throw new Exception("This file does not exist");
 
-                using (ICryptoTransform icrp = CreateCipher(CryptMode.ENCRYPT, 
-                                                            Encoding.ASCII.GetBytes(PShaGenerator.GenerateKey(password))))
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    byte[] encrypted = icrp.TransformFinalBlock(fcontent, 0, fcontent.Length);
-                    FileHandler.CreatePCryptFile(fpath, encrypted);
-                    FileHandler.DeleteFile(fpath);
+                    using (ICryptoTransform icrp = CreateCipher(CryptMode.ENCRYPT,
+                                                                Encoding.ASCII.GetBytes(PKeyGenerator.GenerateKey(password))))
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, icrp, CryptoStreamMode.Write))
+                        {
+                            using (FileStream fs = new FileStream(fpath, FileMode.Open, FileAccess.Read))
+                            {
+                                byte[] buffer = new byte[2048];
+                                int bytesRead;
+                                while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
+                                {
+                                    cs.Write(buffer, 0, bytesRead);
+                                }
+                                fs.Close();
+                            }
+                            cs.FlushFinalBlock();
+                            cs.Clear();
+                            cs.Close();
+                        }
+                    }
+
+                    File.Delete(fpath);
+                    File.WriteAllBytes(Path.GetDirectoryName(fpath) + "\\" + Path.GetFileName(fpath) + ".pcrypted", ms.ToArray());
+                    ms.Close();
                 }
             }
             catch (System.Exception ex)
             {
+                SReporter.SetStatus("FAILED");
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                GC.Collect();
             }
         }
 
@@ -42,32 +68,45 @@ namespace PCrypt.Source.Cryptography
         {
             try
             {
-                byte[] encrypted;
-                string ext = string.Empty;
+                if (!File.Exists(fpath))
+                    throw new Exception("This file does not exist");
 
-                using (StreamReader reader = new StreamReader(fpath))
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    encrypted = FileHandler.Base64ToBuffer(reader.ReadLine());
-                    ext = reader.ReadLine();
-                }
+                    using (ICryptoTransform icrp = CreateCipher(CryptMode.DECRYPT,
+                                                                Encoding.ASCII.GetBytes(PKeyGenerator.GenerateKey(password))))
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, icrp, CryptoStreamMode.Write))
+                        {
+                            using (FileStream fs = new FileStream(fpath, FileMode.Open, FileAccess.Read))
+                            {
+                                byte[] buffer = new byte[2048];
+                                int bytesRead;
+                                while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
+                                {
+                                    cs.Write(buffer, 0, bytesRead);
+                                }
+                                fs.Close();
+                            }
+                            cs.FlushFinalBlock();
+                            cs.Clear();
+                            cs.Close();
+                        }
+                    }
 
-                if (encrypted == null || string.IsNullOrWhiteSpace(ext))
-                    throw new System.Exception("Invalid File");
-
-                using (ICryptoTransform icrp = CreateCipher(CryptMode.DECRYPT, 
-                                                            Encoding.ASCII.GetBytes(PShaGenerator.GenerateKey(password))))
-                {
-                    byte[] decrypted = icrp.TransformFinalBlock(encrypted, 0, encrypted.Length);
-                    string basestr = Encoding.ASCII.GetString(decrypted);
-                    byte[] bytes = FileHandler.Base64ToBuffer(basestr);
-
-                    FileHandler.CreateFile(Path.GetFileNameWithoutExtension(fpath) + ext, bytes);
-                    FileHandler.DeleteFile(fpath);
+                    File.Delete(fpath);
+                    File.WriteAllBytes(Path.GetDirectoryName(fpath) + "\\" + Path.GetFileNameWithoutExtension(fpath), ms.ToArray());
+                    ms.Close();
                 }
             }
             catch (System.Exception ex)
             {
+                SReporter.SetStatus("FAILED");
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                GC.Collect();
             }
         }
 

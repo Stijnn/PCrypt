@@ -4,10 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PCrypt.Views"
+             xmlns:controls="clr-namespace:PCrypt.Controls"
+             xmlns:fileviewviews="clr-namespace:PCrypt.Views.FileViewViews"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="720" d:DesignWidth="1270">
     <Grid>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                   FontSize="32" Text="File View" />
+        <TabControl TabStripPlacement="Top" Background="Transparent" Controls:TabControlHelper.Underlined="TabPanel" >
+            <Controls:MetroTabItem Header="Encrypt file(s)" Controls:ControlsHelper.HeaderFontSize="16">
+                <fileviewviews:EncryptorFileView BorderThickness="0"/>
+            </Controls:MetroTabItem>
+            <Controls:MetroTabItem Header="Decrypt file(s)" Controls:ControlsHelper.HeaderFontSize="16">
+                <fileviewviews:DecryptorFileView BorderThickness="0"/>
+            </Controls:MetroTabItem>
+        </TabControl>
     </Grid>
 </UserControl>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PCrypt.Source.Cryptography
 {
-    class PShaGenerator
+    class PKeyGenerator
     {
         public static string GenerateKey(string pass)
         {
@@ -17,8 +17,7 @@ namespace PCrypt.Source.Cryptography
             byte[] encrypted = cipher.ComputeHash(buffer, 0, buffer.Length);
 
             string temp = BufferToStringKey(encrypted);
-            string key = GenerateKeyMD5(temp);
-            return key;
+            return GenerateKeyMD5(temp);
         }
 
         private static string GenerateKeyMD5(string SHA)

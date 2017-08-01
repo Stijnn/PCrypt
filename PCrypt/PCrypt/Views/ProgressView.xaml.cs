@@ -29,42 +29,66 @@ namespace PCrypt
 
         public void UpdateStatus(string status)
         {
-            lblAction.Text = status;
+            lblAction.Dispatcher.Invoke(() =>
+            {
+                lblAction.Text = status;
+            });
         }
 
         public void UpdateReporter(string text)
         {
-            lblReporter.Text = text;
+                lblAction.Dispatcher.Invoke(() =>
+            {
+                lblReporter.Text = text;
+            });
         }
 
         public void ChangeItermediate(bool enabled)
         {
-            progressBar.IsIndeterminate = enabled;
+            progressBar.Dispatcher.Invoke(() =>
+            {
+                progressBar.IsIndeterminate = enabled;
+            });
         }
 
         public void ChangeColor(SolidColorBrush brush)
         {
-            progressBar.Foreground = brush;
+            progressBar.Dispatcher.Invoke(() =>
+            {
+                progressBar.Foreground = brush;
+            });
         }
 
         public void SetMaxValue(int val)
         {
-            progressBar.Maximum = val;
+            progressBar.Dispatcher.Invoke(() =>
+            {
+                progressBar.Maximum = val;
+            });
         }
 
         public void SetValue(int val)
         {
-            progressBar.Value = val;
+            progressBar.Dispatcher.Invoke(() =>
+            {
+                progressBar.Value = val;
+            });
         }
 
         public void ResetProgress()
         {
-            progressBar.Value = progressBar.Minimum;
+            progressBar.Dispatcher.Invoke(() =>
+            {
+                progressBar.Value = progressBar.Minimum;
+            });
         }
 
         public void UpdateValueWith(int val)
         {
-            progressBar.Value += val;
+            progressBar.Dispatcher.Invoke(() =>
+            {
+                progressBar.Value += val;
+            });
         }
     }
 }

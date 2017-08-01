@@ -14,12 +14,7 @@
 
         public static AUTH_RESULT Authenticate(string username, string password)
         {
-            if (string.IsNullOrWhiteSpace(uuid))
-            {
-
-            }
-            else
-                return AUTH_RESULT.Failed;
+            return AUTH_RESULT.Failed;
         }
 
         public static void Logout()

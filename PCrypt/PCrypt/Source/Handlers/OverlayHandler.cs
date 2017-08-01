@@ -27,26 +27,40 @@
 
         public static void OpenOverlay(UserControl view)
         {
-            _control.Visibility = System.Windows.Visibility.Visible;
-            _control.Children.Add(view);
-            Panel.SetZIndex(_control, 1);
+            _control.Dispatcher.Invoke(() =>
+            {
+                _control.Visibility = System.Windows.Visibility.Visible;
+                _control.Children.Add(view);
+                Panel.SetZIndex(_control, 1);
+            });
         }
 
         public static void HideOverlay()
         {
-            _control.Visibility = System.Windows.Visibility.Hidden;
-            _control.Children.Clear();
-            Panel.SetZIndex(_control, -1);
+            _control.Dispatcher.Invoke(() =>
+            {
+                _control.Visibility = System.Windows.Visibility.Hidden;
+                _control.Children.Clear();
+                Panel.SetZIndex(_control, -1);
+            });
         }
 
         public static void ShowLoadingOverlay()
         {
-            OpenOverlay(loadview);
+            _control.Dispatcher.Invoke(() =>
+            {
+                OpenOverlay(loadview);
+                Panel.SetZIndex(_control, 1);
+            });
         }
 
         public static void RemoveLoadingOverlay()
         {
-            _control.Children.Remove(loadview);
+            _control.Dispatcher.Invoke(() =>
+            {
+                _control.Children.Remove(loadview);
+                Panel.SetZIndex(_control, -1);
+            });
         }
 
         public static OverlayHandler Instance { get => instance; private set => instance = value; }
